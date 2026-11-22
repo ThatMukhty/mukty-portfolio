@@ -1,0 +1,83 @@
+body {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #0A0A0B;
+  color: #F5F5F4;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Scroll-Driven Reveal Motion */
+.scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0) scale(0.992);
+  transition:
+    opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--stagger, 0ms);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Tactile Card Hover & Scroll Shift */
+.system-card {
+  transform: translate3d(0, var(--scroll-shift, 0px), 0);
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.system-card:hover {
+  transform: translate3d(0, calc(var(--scroll-shift, 0px) - 3px), 0);
+}
+
+/* Modal Node Step Transitions */
+.node-step-btn {
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.node-step-btn.is-active {
+  border-color: #DC2626;
+  background-color: rgba(220, 38, 38, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal.is-visible,
+  .system-card,
+  .system-card:hover,
+  #heroWatermark,
+  #topSystemsHeading,
+  #otherBuildsHeading {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Custom Subtle Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #DC2626;
+}

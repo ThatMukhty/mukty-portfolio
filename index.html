@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mukty — Operational Web Systems &amp; Workflow Automations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-[#0A0A0B] text-[#F5F5F4] antialiased selection:bg-[#DC2626] selection:text-[#F5F5F4]">
+  <!-- Scroll Progress Bar -->
+  <div class="fixed top-0 left-0 right-0 h-[3px] z-50 bg-[#F5F5F4]/10 pointer-events-none">
+    <div id="scrollProgressBar" class="h-full bg-[#DC2626] w-0"></div>
+  </div>
+
+  <!-- Top Navigation -->
+  <header class="sticky top-0 z-40 bg-[#0A0A0B]/92 backdrop-blur-md border-b border-[#F5F5F4]/12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <a href="#" class="flex items-center gap-3">
+        <span class="font-mono text-xs font-bold tracking-widest uppercase px-2.5 py-1 bg-[#F5F5F4] text-[#0A0A0B]">
+          MUKTY
+        </span>
+        <span class="hidden sm:inline font-mono text-xs text-[#F5F5F4]/65">
+          SYSTEMS &amp; AUTOMATION
+        </span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 font-mono text-xs text-[#F5F5F4]/75">
+        <a href="#top-systems" class="hover:text-[#F5F5F4] transition">01 / TOP 5 SYSTEMS</a>
+        <a href="#other-builds" class="hover:text-[#F5F5F4] transition">02 / OTHER BUILDS</a>
+        <a href="#contact" class="hover:text-[#F5F5F4] transition">03 / DEPLOY</a>
+      </nav>
+
+      <a
+        href="https://wa.me/2349065086844?text=Hi%20Mukty%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20automate%20operations%20for%20my%20business."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-mono text-xs font-bold uppercase px-3.5 py-2 bg-[#DC2626] text-[#F5F5F4] hover:bg-[#F5F5F4] hover:text-[#0A0A0B] transition"
+      >
+        Book On WhatsApp ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- Opening Hero With First-Person "I Am Mukty" Intro & Scroll-Driven Motion -->
+  <section class="relative overflow-hidden border-b border-[#F5F5F4]/12">
+    <div
+      id="heroWatermark"
+      aria-hidden="true"
+      class="pointer-events-none select-none font-mono font-bold text-[19vw] leading-none text-[#F5F5F4]/[0.025] absolute -right-8 top-4 whitespace-nowrap will-change-transform"
+    >
+      MUKTY // OPS
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-8 space-y-5 scroll-reveal">
+          <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest px-3 py-1 border border-[#F5F5F4]/20 bg-[#F5F5F4]/[0.03]">
+            <span class="w-2 h-2 bg-[#DC2626] inline-block"></span>
+            <span>First-Person Brief &bull; Lagos Web &amp; n8n Automation</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.06]">
+            I am Mukty. I build web systems &amp; WhatsApp automations that stop <span class="text-[#DC2626]">double-selling,</span> missed bookings &amp; manual chaos.
+          </h1>
+
+          <p class="text-base sm:text-lg text-[#F5F5F4]/80 max-w-2xl leading-relaxed">
+            I am Mukty—I help restaurants, fashion drops, bakeries, studios, salons, and property operators replace scattered WhatsApp chats, oversold stock, and messy payment follow-ups with clean ordering flows, live stock/portion locks, Google Sheets + Calendar sync, and automated payment/receipt checks.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a
+              href="https://wa.me/2349065086844?text=Hi%20Mukty%2C%20I%20want%20to%20set%20up%20a%20system%20for%20my%20business."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-mono text-xs font-bold uppercase tracking-wider px-5 py-3.5 bg-[#DC2626] text-[#F5F5F4] hover:bg-[#F5F5F4] hover:text-[#0A0A0B] transition"
+            >
+              Start A Build On WhatsApp ↗
+            </a>
+            <a
+              href="#top-systems"
+              class="font-mono text-xs font-bold uppercase tracking-wider px-5 py-3.5 border border-[#F5F5F4]/25 text-[#F5F5F4] hover:border-[#F5F5F4] transition"
+            >
+              Inspect Top 5 Systems &darr;
+            </a>
+          </div>
+        </div>
+
+        <!-- Operational Proof Strip -->
+        <div class="lg:col-span-4 border border-[#F5F5F4]/15 bg-[#F5F5F4]/[0.02] p-5 space-y-4 scroll-reveal">
+          <div class="flex items-center justify-between border-b border-[#F5F5F4]/12 pb-2.5">
+            <span class="font-mono text-[11px] uppercase tracking-wider text-[#F5F5F4]/60">
+              HOW I WORK
+            </span>
+            <span class="font-mono text-[11px] text-[#DC2626] font-bold">
+              09 SYSTEMS BUILT
+            </span>
+          </div>
+          <ul class="space-y-3 text-sm text-[#F5F5F4]/85">
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-xs text-[#DC2626] font-bold mt-0.5">01</span>
+              <span>Stop overselling limited stock or finished food batches before orders are taken.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-xs text-[#DC2626] font-bold mt-0.5">02</span>
+              <span>Connect forms, Google Sheets, Google Calendar, n8n, and WhatsApp alerts automatically.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-xs text-[#DC2626] font-bold mt-0.5">03</span>
+              <span>Catch short transfers, track debts, and hand off clean dispatch details.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Portfolio Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-20">
+    <!-- SECTION 1: TOP 5 FLAGSHIP SYSTEMS -->
+    <section id="top-systems" class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#F5F5F4]/12 pb-6 scroll-reveal">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-[#DC2626] font-semibold mb-1.5">
+            01 // CORE REVENUE &amp; OPERATIONS LINEUP
+          </p>
+          <h2 id="topSystemsHeading" class="text-2xl sm:text-4xl font-bold tracking-tight will-change-transform">
+            Top 5 Flagship Systems
+          </h2>
+        </div>
+
+        <!-- Sector Filter Tabs -->
+        <div class="flex flex-wrap gap-2" role="tablist" aria-label="Filter Top Systems">
+          <button
+            type="button"
+            data-filter="ALL"
+            onclick="filterTopSystems('ALL')"
+            class="filter-btn font-mono text-xs uppercase px-3 py-1.5 border border-[#DC2626] bg-[#DC2626] text-[#F5F5F4] font-semibold"
+          >
+            All (5)
+          </button>
+          <button
+            type="button"
+            data-filter="COMMERCE"
+            onclick="filterTopSystems('COMMERCE')"
+            class="filter-btn font-mono text-xs uppercase px-3 py-1.5 border border-[#F5F5F4]/20 text-[#F5F5F4]/80 hover:border-[#F5F5F4]"
+          >
+            Food &amp; Retail
+          </button>
+          <button
+            type="button"
+            data-filter="BOOKINGS"
+            onclick="filterTopSystems('BOOKINGS')"
+            class="filter-btn font-mono text-xs uppercase px-3 py-1.5 border border-[#F5F5F4]/20 text-[#F5F5F4]/80 hover:border-[#F5F5F4]"
+          >
+            Bookings &amp; WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Top 5 Grid -->
+      <div id="topSystemsGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- SECTION 2: OTHER BUILDS -->
+    <section id="other-builds" class="space-y-8 pt-4 border-t border-[#F5F5F4]/12">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 scroll-reveal">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-[#F5F5F4]/55 font-semibold mb-1.5">
+            02 // ADDITIONAL &amp; SPECIALIZED BUILDS
+          </p>
+          <h2 id="otherBuildsHeading" class="text-2xl sm:text-3xl font-bold tracking-tight will-change-transform">
+            Other Builds &amp; Vertical Workflows
+          </h2>
+        </div>
+        <p class="text-sm text-[#F5F5F4]/65 max-w-md">
+          Salon booking flow, private event ticketing infrastructure, sound-engineering invoicing, and developer tools from my build catalog.
+        </p>
+      </div>
+
+      <!-- Other Builds Grid -->
+      <div id="otherBuildsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+    </section>
+
+    <!-- SECTION 3: DIRECT CONTACT / DEPLOYMENT CTA -->
+    <section id="contact" class="bg-[#F5F5F4] text-[#0A0A0B] p-6 sm:p-10 border border-[#F5F5F4] scroll-reveal">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-3">
+          <span class="font-mono text-xs font-bold uppercase tracking-widest text-[#DC2626]">
+            03 // DEPLOYMENT &amp; CUSTOM BUILDS
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-bold tracking-tight">
+            Have a manual WhatsApp, booking, or stock bottleneck?
+          </h2>
+          <p class="text-sm sm:text-base text-[#0A0A0B]/80 max-w-2xl">
+            Send a message telling me how orders, bookings, or payments currently move in your business. We will put the right web system or n8n workflow in place.
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-col gap-3">
+          <a
+            href="https://wa.me/2349065086844?text=Hi%20Mukty%2C%20I%20want%20to%20build%20an%20ordering%20or%20booking%20automation%20for%20my%20business."
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-center font-mono text-xs font-bold uppercase tracking-wider px-5 py-3.5 bg-[#DC2626] text-[#F5F5F4] hover:bg-[#0A0A0B] transition"
+          >
+            Message On WhatsApp (+234 906 508 6844) ↗
+          </a>
+          <a
+            href="mailto:mabdulfattah497@gmail.com?subject=System%20%2F%20Automation%20Inquiry"
+            class="text-center font-mono text-xs font-bold uppercase tracking-wider px-5 py-3 border border-[#0A0A0B] text-[#0A0A0B] hover:bg-[#0A0A0B] hover:text-[#F5F5F4] transition"
+          >
+            mabdulfattah497@gmail.com
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#F5F5F4]/12 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-[#F5F5F4]/55">
+      <p>MUKTY &mdash; OPERATIONAL SYSTEMS &amp; WORKFLOW ENGINEERING</p>
+      <p>LAGOS, NIGERIA</p>
+    </div>
+  </footer>
+
+  <!-- Interactive Workflow Step-Runner & Architecture Modal -->
+  <div
+    id="workflowModal"
+    class="hidden fixed inset-0 z-50 bg-[#0A0A0B]/88 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+    <div class="bg-[#0A0A0B] border border-[#F5F5F4]/25 max-w-3xl w-full max-h-[92vh] overflow-y-auto p-5 sm:p-8 space-y-6">
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between gap-4 border-b border-[#F5F5F4]/12 pb-4">
+        <div>
+          <span id="modalBadge" class="font-mono text-[11px] uppercase tracking-widest text-[#DC2626] font-bold"></span>
+          <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold mt-1"></h3>
+        </div>
+        <button
+          type="button"
+          onclick="closeWorkflowModal()"
+          class="font-mono text-xs uppercase px-3 py-1.5 border border-[#F5F5F4]/25 hover:border-[#F5F5F4] text-[#F5F5F4] shrink-0"
+        >
+          Close [ESC]
+        </button>
+      </div>
+
+      <!-- Bottleneck Summary -->
+      <div class="p-3.5 sm:p-4 bg-[#F5F5F4]/[0.03] border border-[#F5F5F4]/12">
+        <p class="font-mono text-[11px] uppercase text-[#F5F5F4]/55 mb-1">Operational Bottleneck Solved</p>
+        <p id="modalProblem" class="text-sm text-[#F5F5F4]/90 leading-relaxed"></p>
+      </div>
+
+      <!-- Interactive Step-Runner Controls & Live Inspector -->
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-[#DC2626] inline-block animate-pulse"></span>
+            <p class="font-mono text-xs uppercase text-[#DC2626] font-bold">
+              Interactive Node Step-Runner
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="stepPrevBtn"
+              onclick="prevModalStep()"
+              class="font-mono text-xs uppercase px-3 py-1.5 border border-[#F5F5F4]/25 text-[#F5F5F4] hover:border-[#F5F5F4] disabled:opacity-35 disabled:pointer-events-none transition"
+            >
+              &larr; Prev
+            </button>
+            <span id="stepCounter" class="font-mono text-xs text-[#F5F5F4]/75 px-2">
+              01 / 04
+            </span>
+            <button
+              type="button"
+              id="stepNextBtn"
+              onclick="nextModalStep()"
+              class="font-mono text-xs uppercase px-3 py-1.5 border border-[#F5F5F4]/25 text-[#F5F5F4] hover:border-[#F5F5F4] disabled:opacity-35 disabled:pointer-events-none transition"
+            >
+              Next &rarr;
+            </button>
+            <button
+              type="button"
+              id="stepAutoPlayBtn"
+              onclick="toggleAutoRunSteps()"
+              class="font-mono text-xs font-bold uppercase px-3 py-1.5 bg-[#DC2626] text-[#F5F5F4] hover:bg-[#F5F5F4] hover:text-[#0A0A0B] transition"
+            >
+              Auto-Run &#9654;
+            </button>
+          </div>
+        </div>
+
+        <!-- Step Progress Strip -->
+        <div id="stepProgressTrack" class="grid gap-1.5"></div>
+
+        <!-- Active Node Detail + Live Payload Console -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <!-- Left: Clickable Node Timeline -->
+          <div class="lg:col-span-6 space-y-2">
+            <p class="font-mono text-[11px] uppercase text-[#F5F5F4]/50">
+              Execution Nodes (Click any node)
+            </p>
+            <ol id="modalSteps" class="space-y-2"></ol>
+          </div>
+
+          <!-- Right: Live Node Inspector & Payload Output -->
+          <div class="lg:col-span-6 flex flex-col justify-between border border-[#F5F5F4]/18 bg-[#F5F5F4]/[0.02] p-4 space-y-4">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2 border-b border-[#F5F5F4]/12 pb-2">
+                <span id="activeNodeBadge" class="font-mono text-[11px] font-bold uppercase text-[#DC2626]">
+                  NODE 01 // TRIGGER
+                </span>
+                <span id="activeNodeStatus" class="font-mono text-[10px] uppercase px-2 py-0.5 bg-[#F5F5F4] text-[#0A0A0B] font-bold">
+                  EXECUTED
+                </span>
+              </div>
+
+              <div>
+                <h4 id="activeNodeTitle" class="text-base font-bold text-[#F5F5F4]"></h4>
+                <p id="activeNodeDesc" class="text-sm text-[#F5F5F4]/80 leading-relaxed mt-1"></p>
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-[10px] uppercase tracking-wider text-[#F5F5F4]/50">
+                  Sample Runtime Payload / Message Output
+                </span>
+                <button
+                  type="button"
+                  id="copyPayloadBtn"
+                  onclick="copyCurrentPayload()"
+                  class="font-mono text-[10px] uppercase text-[#F5F5F4]/75 hover:text-[#DC2626] transition"
+                >
+                  Copy JSON
+                </button>
+              </div>
+              <pre
+                id="activeNodePayload"
+                class="font-mono text-xs leading-relaxed text-[#F5F5F4]/90 bg-[#0A0A0B] border border-[#F5F5F4]/15 p-3 overflow-x-auto whitespace-pre-wrap"
+              ></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer Actions -->
+      <div class="pt-4 border-t border-[#F5F5F4]/12 flex flex-wrap items-center justify-between gap-3">
+        <a
+          id="modalLiveLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden font-mono text-xs font-bold uppercase px-4 py-2.5 border border-[#F5F5F4] text-[#F5F5F4] hover:bg-[#F5F5F4] hover:text-[#0A0A0B] transition"
+        >
+          Open Live System ↗
+        </a>
+        <a
+          id="modalWhatsappBtn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-xs font-bold uppercase px-5 py-2.5 bg-[#DC2626] text-[#F5F5F4] hover:bg-[#F5F5F4] hover:text-[#0A0A0B] transition ml-auto"
+        >
+          Request Similar Setup ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
