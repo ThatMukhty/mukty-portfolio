@@ -3,61 +3,54 @@ const TOP_SYSTEMS = [
     id: 'chopline',
     number: '01',
     sector: 'COMMERCE',
-    tag: 'LIVE WEB APP + N8N DISPATCH',
+    tag: 'Live Storefront + Automated Dispatch',
     title: 'ChopLine Kitchen',
-    subtitle: 'Restaurant Ordering, Live Portion Caps & Rider Split Checkout',
+    subtitle: 'Restaurant Ordering, Live Portion Caps & Rider Fee Split',
     liveUrl: 'https://chopline-kitchen.vercel.app/',
     leakStopped:
       'Stops kitchens from selling food portions that have already finished and eliminates messy WhatsApp back-and-forth over landmarks and rider fees.',
     automationNote:
-      'We built an n8n workflow that captures incoming order tickets, logs food vs. delivery fee splits, flags cash-on-delivery rider fees, and pushes formatted dispatch alerts to WhatsApp.',
+      'Incoming orders automatically calculate zone delivery fees, generate a clean order ticket, and send formatted kitchen & rider alerts on WhatsApp.',
     steps: [
       {
-        node: 'TRIGGER // MENU & PORTION LOCK',
-        title: 'Live Portion Availability Check',
+        badge: 'Step 1 • Customer Menu',
+        title: 'Live Portion Availability Lock',
         detail:
-          'Customer selects available dishes with live portion counts that automatically lock when sold out.',
-        payload: `{
-  "event": "portion.reserved",
-  "item": "Smoky Jollof + Peppered Turkey",
-  "portions_remaining": 3,
-  "status": "AVAILABLE_LOCKED"
-}`
+          'Customers only see plates still in stock. Once the last portion sells, the button locks automatically so you never refund disappointed buyers.',
+        channel: 'What Your Customer Sees',
+        resultTitle: 'Smoky Jollof + Peppered Turkey — 2 Plates Left',
+        resultBody:
+          'Customer selects 2 plates. Stock immediately updates to "Sold Out" on the storefront so no third buyer can pay for food that is finished.'
       },
       {
-        node: 'CALC // ZONE & RIDER FEE SPLIT',
-        title: 'Delivery Zone & Payment Split Engine',
+        badge: 'Step 2 • Smart Checkout',
+        title: 'Zone Delivery & Rider Fee Choice',
         detail:
-          'Checkout calculates delivery zone rates and lets buyers pay rider fees upfront or on arrival.',
-        payload: `{
-  "zone": "Ikorodu -> Gbagada Express",
-  "food_subtotal_ngn": 6500,
-  "rider_fee_ngn": 2000,
-  "rider_payment_mode": "PAY_ON_ARRIVAL"
-}`
+          'Delivery fees calculate automatically by area, and customers can choose to pay the rider upfront or on arrival.',
+        channel: 'Checkout Summary',
+        resultTitle: 'Food: ₦6,500 (Paid) • Rider Fee: ₦2,000 (Pay on Delivery)',
+        resultBody:
+          'Clear breakdown removes arguments at the gate—both the kitchen and the dispatch rider know who is collecting what.'
       },
       {
-        node: 'TICKET // STRUCTURED ORDER ID',
-        title: 'Instant #CK Ticket Generation',
+        badge: 'Step 3 • Order Ticket',
+        title: 'Instant #CK Order Ticket',
         detail:
-          'Order generates a structured #CK ticket with one-tap copy and pre-filled WhatsApp handoff.',
-        payload: `{
-  "ticket_id": "#CK-4092",
-  "customer": "Tunde A.",
-  "landmark": "Opposite Gbagada General Hospital Gate",
-  "handoff": "WHATSAPP_READY"
-}`
+          'Generates a structured order ticket with the customer’s exact landmark and phone number.',
+        channel: 'Customer Confirmation Screen',
+        resultTitle: 'Ticket #CK-4092 Confirmed',
+        resultBody:
+          '"Hi Tunde, your order #CK-4092 is confirmed! Delivery landmark: Opposite Gbagada General Hospital Gate."'
       },
       {
-        node: 'N8N // DISPATCH & LOGGING',
-        title: 'Kitchen & Rider WhatsApp Alert',
+        badge: 'Step 4 • Kitchen & Dispatch Alert',
+        title: 'Automatic Kitchen WhatsApp Alert',
         detail:
-          'n8n workflow logs ticket data and alerts the kitchen/dispatch channel with clean address and payment breakdown.',
-        payload: `{
-  "n8n_node": "WhatsApp_Kitchen_Alert",
-  "sheet_logged": true,
-  "message_preview": "NEW ORDER #CK-4092 | Food: N6,500 (Paid) | Rider: N2,000 (Collect at Gate)"
-}`
+          'Your kitchen and dispatch team receive a ready-to-pack summary on WhatsApp without anyone typing a word.',
+        channel: 'WhatsApp Message to Kitchen',
+        resultTitle: 'New Paid Order #CK-4092',
+        resultBody:
+          '"PACK NOW: 2x Jollof & Turkey | Customer: Tunde (0803...) | Drop-off: Gbagada Hospital Gate | Collect ₦2,000 rider fee on arrival."'
       }
     ]
   },
@@ -65,61 +58,54 @@ const TOP_SYSTEMS = [
     id: 'vulture-silk',
     number: '02',
     sector: 'COMMERCE',
-    tag: 'LIVE WEB APP + N8N STOCK & RIDER FLOW',
+    tag: 'Live Storefront + Stock & Rider Flow',
     title: 'Vulture & Silk',
-    subtitle: 'Boutique Drop Stock Lock & Rider Manifest System',
+    subtitle: 'Fashion Drop Size Lock & Rider Dispatch System',
     liveUrl: 'https://vulture-silk-1.vercel.app/',
     leakStopped:
-      'Prevents two customers from buying the last size during high-demand fashion drops while organizing zone dispatch fees cleanly.',
+      'Prevents two customers from paying for the last size during high-demand drops while keeping delivery fees and rider slips organized.',
     automationNote:
-      'We built an n8n workflow that records reserved size, buyer details, and ticket ID, alerts the vendor on WhatsApp, and prepares a ready-to-send rider manifest on payment verification.',
+      'Automatically locks reserved sizes, alerts the vendor on WhatsApp for fast transfer checks, and outputs a clean rider dispatch slip.',
     steps: [
       {
-        node: 'LOCK // DROP SIZE INVENTORY',
-        title: 'Anti-Double-Sell Size Reservation',
+        badge: 'Step 1 • Drop Inventory',
+        title: 'Instant Size Reservation Lock',
         detail:
-          'Live size inventory prevents overselling limited pieces during drop windows.',
-        payload: `{
-  "drop": "VOID_CAPSULE_01",
-  "sku": "VS-TEE-BLK-L",
-  "stock_before": 1,
-  "stock_after": 0,
-  "lock_state": "SOLD_OUT_ON_UI"
-}`
+          'When a buyer claims the last Large or Medium piece during a drop, that size immediately locks so you never double-sell.',
+        channel: 'Live Storefront Status',
+        resultTitle: 'Heavyweight Obsidian Tee (Size L) — Reserved',
+        resultBody:
+          'Size L switches to "Sold Out" in real time while Size M and XL remain open for other shoppers.'
       },
       {
-        node: 'CHECKOUT // ZONE & TICKET',
+        badge: 'Step 2 • Order Ticket',
         title: 'Automated Zone Fee & Ticket ID',
         detail:
-          'Zone-based delivery calculation and instant ticket generation replace manual DM price quotes.',
-        payload: `{
-  "ticket_id": "#VS-1184",
-  "delivery_zone": "Lekki Phase 1",
-  "delivery_fee_ngn": 3500,
-  "total_due_ngn": 48500
-}`
+          'Replaces endless DM price questions with instant zone shipping calculation and a unique order reference.',
+        channel: 'Buyer Checkout Receipt',
+        resultTitle: 'Order #VS-1184 • Total: ₦48,500 (Includes ₦3,500 Lekki Delivery)',
+        resultBody:
+          'Buyer gets an immediate total and payment instruction without waiting 20 minutes for a DM reply.'
       },
       {
-        node: 'N8N // VENDOR WHATSAPP PING',
-        title: 'Instant Reservation Alert to Vendor',
+        badge: 'Step 3 • Vendor Alert',
+        title: 'WhatsApp Payment Alert to You',
         detail:
-          'n8n automation logs reservation details and notifies the vendor on WhatsApp for rapid transfer confirmation.',
-        payload: `{
-  "n8n_node": "Vendor_Transfer_Check",
-  "buyer": "Zainab O.",
-  "reserved_item": "Heavyweight Obsidian Tee (L)",
-  "awaiting_transfer_ngn": 48500
-}`
+          'You receive a clean WhatsApp summary of the buyer, reserved size, and exact amount to confirm.',
+        channel: 'WhatsApp Message to Brand Owner',
+        resultTitle: 'New Drop Reservation #VS-1184',
+        resultBody:
+          '"Zainab O. reserved 1x Obsidian Tee (L) for Lekki Phase 1. Confirm ₦48,500 transfer to release rider slip."'
       },
       {
-        node: 'DISPATCH // RIDER MANIFEST',
-        title: 'One-Click Rider Dispatch Slip',
+        badge: 'Step 4 • Rider Dispatch',
+        title: 'Ready-to-Send Rider Manifest',
         detail:
-          'Confirmed orders output a structured dispatch slip for riders.',
-        payload: `{
-  "status": "PAYMENT_CONFIRMED",
-  "rider_manifest": "PICKUP: Surulere Studio -> DROP: Admiralty Way, Lekki Ph 1 | COD: N0"
-}`
+          'Once payment is confirmed, a clean pickup-and-dropoff slip is ready to forward straight to your dispatch rider.',
+        channel: 'Rider Dispatch Slip',
+        resultTitle: 'Dispatch Ready — Order #VS-1184',
+        resultBody:
+          '"PICKUP: Surulere Studio -> DROP: Admiralty Way, Lekki Phase 1 | Receiver: Zainab (0809...) | Delivery Already Paid."'
       }
     ]
   },
@@ -127,61 +113,54 @@ const TOP_SYSTEMS = [
     id: 'bakery-ledger',
     number: '03',
     sector: 'COMMERCE',
-    tag: 'LIVE WEB APP + N8N RECONCILIATION',
+    tag: 'Live Web App + Daily Reconciliation',
     title: 'Bakery Ledger',
     subtitle: 'Daily Bread Production, Distributor Debt & Cash Reconciliation',
     liveUrl: 'https://bakery-ledger.vercel.app/',
     leakStopped:
-      'Replaces error-prone paper notebooks for tracking daily bread batches, distributor credit balances, and end-of-day cash vs. transfer shortfalls.',
+      'Replaces messy paper notebooks for tracking daily bread batches, distributor credit balances, and end-of-day cash vs. transfer shortfalls.',
     automationNote:
-      'We built an n8n workflow that logs daily production runs, flags overdue distributor balances, and delivers an automated end-of-day cash reconciliation summary on WhatsApp.',
+      'Tracks every loaf handed to distributors, updates unpaid balances automatically, and sends a clear end-of-day cash summary on WhatsApp.',
     steps: [
       {
-        node: 'INPUT // BATCH & DISPATCH LOG',
-        title: 'Daily Loaf Batch & Distributor Allocation',
+        badge: 'Step 1 • Morning Production',
+        title: 'Daily Batch & Distributor Stock Log',
         detail:
-          'Logs daily batch output across loaf sizes and assigns stock dispatched to individual distributors.',
-        payload: `{
-  "batch_date": "2026-11-21",
-  "produced": { "jumbo": 320, "family": 450, "mini": 200 },
-  "distributor": "Mama Kemi Depot",
-  "taken_value_ngn": 145000
-}`
+          'Record how many loaves were baked and exactly how many crates each distributor took out.',
+        channel: 'Bakery Floor Log',
+        resultTitle: 'Morning Run Logged: 970 Loaves Dispatched',
+        resultBody:
+          '"Mama Kemi Depot took ₦145,000 worth of bread (320 Jumbo, 150 Family) at 7:15 AM."'
       },
       {
-        node: 'LEDGER // CREDIT & PART-PAYMENT',
-        title: 'Distributor Running Debt Tracker',
+        badge: 'Step 2 • Debt Tracking',
+        title: 'Automatic Distributor Balance Update',
         detail:
-          'Tracks partial payments and running credit balances per distributor automatically.',
-        payload: `{
-  "distributor": "Mama Kemi Depot",
-  "previous_debt_ngn": 30000,
-  "today_stock_ngn": 145000,
-  "paid_today_ngn": 120000,
-  "new_balance_due_ngn": 55000
-}`
+          'When a distributor pays part cash and leaves a balance, the system carries the exact debt forward automatically.',
+        channel: 'Distributor Account Card',
+        resultTitle: 'Mama Kemi Depot — Updated Balance: ₦55,000 Owed',
+        resultBody:
+          '"Previous Debt: ₦30,000 + Today’s Bread: ₦145,000 − Paid Today: ₦120,000 = ₦55,000 Balance Due."'
       },
       {
-        node: 'AUDIT // CASH VS TRANSFER SPLIT',
-        title: 'End-of-Day Shortfall Reconciliation',
+        badge: 'Step 3 • End-of-Day Audit',
+        title: 'Cash vs. Bank Transfer Check',
         detail:
-          'Reconciles expected revenue against actual cash and bank transfers at close of business.',
-        payload: `{
-  "expected_collections_ngn": 680000,
-  "cash_counted_ngn": 410000,
-  "bank_transfers_ngn": 270000,
-  "variance_ngn": 0
-}`
+          'Compares total bread sold against physical cash in hand and bank transfers received so missing Naira is spotted immediately.',
+        channel: 'Closing Cash Audit',
+        resultTitle: 'Expected: ₦680,000 • Counted: ₦680,000 (₦0 Shortfall)',
+        resultBody:
+          '"Cash in Drawer: ₦410,000 + Bank Transfers: ₦270,000 = Balanced."'
       },
       {
-        node: 'N8N // OWNER WHATSAPP REPORT',
-        title: 'Automated EOD Summary & Debt Flag',
+        badge: 'Step 4 • Owner Summary',
+        title: 'WhatsApp End-of-Day Report',
         detail:
-          'n8n sends a clean end-of-day summary and overdue debt alerts straight to the baker on WhatsApp.',
-        payload: `{
-  "n8n_node": "Owner_Daily_Digest",
-  "whatsapp_report": "EOD CLOSED: N680,000 collected (0 variance). 2 distributors owe N92,000 total."
-}`
+          'You receive a clear closing report and overdue debt list on WhatsApp without digging through notebooks.',
+        channel: 'WhatsApp Report to Bakery Owner',
+        resultTitle: 'Daily Bakery Summary — All Balanced',
+        resultBody:
+          '"Today’s Collections: ₦680,000 (₦0 missing). Reminder: 2 distributors currently owe ₦92,000 combined."'
       }
     ]
   },
@@ -189,95 +168,84 @@ const TOP_SYSTEMS = [
     id: 'daw-studios',
     number: '04',
     sector: 'BOOKINGS',
-    tag: 'PRODUCTION N8N + WHATSAPP PIPELINE',
+    tag: 'Live Client Automation Pipeline',
     title: 'DAW Studios Automation',
-    subtitle: 'End-to-End Studio Booking, Bargaining & Receipt Verification',
+    subtitle: 'Studio Booking, Price Bargaining & Receipt Balance Verification',
     liveUrl: null,
     leakStopped:
-      'Eliminates double-booked studio sessions, forgotten client follow-ups, and unverified short bank transfers during price negotiations.',
+      'Eliminates double-booked studio sessions, forgotten client follow-ups, and unverified short transfers during price negotiations.',
     automationNote:
-      '7-step production pipeline connecting the studio website, Google Sheets, Google Calendar, n8n, and WhatsApp Business messaging.',
+      '7-step automated flow connecting the studio booking form, Google Sheets, Google Calendar, and WhatsApp Business messaging.',
     steps: [
       {
-        node: 'STEP 01 // WEB FORM INTAKE',
-        title: 'Studio Session & Package Submission',
+        badge: 'Step 1 • Website Booking',
+        title: 'Client Picks Session & Preferred Date',
         detail:
-          'Client submits session type, package, and preferred date on the studio website.',
-        payload: `{
-  "client_name": "Kola Beats",
-  "whatsapp": "+2348012345678",
-  "service": "4-Hour Recording + Mixing Session",
-  "requested_date": "2026-11-24T14:00:00+01:00",
-  "standard_rate_ngn": 60000
-}`
+          'Artist or client fills out their session package, hours needed, and preferred date on the studio website.',
+        channel: 'Website Booking Form',
+        resultTitle: '4-Hour Recording & Mixing Session Requested',
+        resultBody:
+          '"Client: Kola Beats | Date: Tuesday, Nov 24 at 2:00 PM | Standard Rate: ₦60,000."'
       },
       {
-        node: 'STEP 02 // GOOGLE SHEETS CRM',
-        title: 'Central Lead & Booking Sheet Sync',
+        badge: 'Step 2 • Lead Backup',
+        title: 'Saved Automatically to Google Sheets',
         detail:
-          'Details automatically log into Google Sheets so zero leads slip through the cracks.',
-        payload: `{
-  "integration": "Google_Sheets_Append",
-  "sheet": "DAW_Studios_Bookings_2026",
-  "row_id": 218,
-  "lead_status": "NEW_INQUIRY"
-}`
+          'Every booking inquiry is logged into a central Google Sheet immediately so no customer is ever forgotten.',
+        channel: 'Google Sheets Customer Log',
+        resultTitle: 'Row #218 Added — Kola Beats (0801...)',
+        resultBody:
+          'Name, phone number, session package, date, and payment status are stored neatly in one place.'
       },
       {
-        node: 'STEP 03 // CALENDAR SLOT LOCK',
-        title: 'Google Calendar Date Reservation',
+        badge: 'Step 3 • Calendar Lock',
+        title: 'Session Date Blocked on Google Calendar',
         detail:
-          'Requested session date locks onto Google Calendar to prevent double-booking.',
-        payload: `{
-  "integration": "Google_Calendar_Create",
-  "calendar": "DAW Studio Main Booth",
-  "slot": "Nov 24, 2026 | 2:00 PM - 6:00 PM",
-  "collision_check": "CLEAR"
-}`
+          'The requested date and time slot is marked on your Google Calendar so two clients never book the same booth.',
+        channel: 'Google Calendar',
+        resultTitle: 'Studio Booth Reserved: Nov 24, 2:00 PM – 6:00 PM',
+        resultBody:
+          'Slot is held on your calendar automatically while payment is finalized.'
       },
       {
-        node: 'STEP 04 // DUAL WHATSAPP DISPATCH',
-        title: 'Client Welcome + Manager Alert',
+        badge: 'Step 4 • Instant WhatsApp Alerts',
+        title: 'Welcome Message to Client + Alert to You',
         detail:
-          'Automated welcome message sends from the studio WhatsApp number to the client while a structured alert hits the manager’s phone.',
-        payload: `{
-  "client_msg": "Welcome to DAW Studios! Your Nov 24 (2PM) request is logged.",
-  "manager_alert": "NEW BOOKING: Kola Beats | 4hr Session | Nov 24 2PM | Rate: N60,000"
-}`
+          'Your studio WhatsApp sends an immediate welcome to the client while sending you the full booking breakdown.',
+        channel: 'Dual WhatsApp Messages',
+        resultTitle: 'Client Welcomed & Manager Notified in 3 Seconds',
+        resultBody:
+          'To Client: "Welcome to DAW Studios! We received your Nov 24 (2 PM) request." | To You: "NEW BOOKING: Kola Beats, 4hrs, ₦60,000."'
       },
       {
-        node: 'STEP 05 // BARGAIN ROUTING',
-        title: 'Price Negotiation Flag to Manager',
+        badge: 'Step 5 • Bargain Alert',
+        title: 'Price Negotiation Flagged to You',
         detail:
-          'If the client requests a bargain, a dedicated negotiation alert routes to the manager.',
-        payload: `{
-  "trigger": "CLIENT_BARGAIN_REQUEST",
-  "client_offer_ngn": 50000,
-  "manager_prompt": "Kola Beats asked for N50,000 (vs N60,000). Reply to approve & send account."
-}`
+          'If the client wants to bargain on the rate, the system flags their offer and alerts you directly on WhatsApp.',
+        channel: 'WhatsApp Bargain Alert to You',
+        resultTitle: 'Bargain Request: Client Offered ₦50,000 (vs ₦60,000)',
+        resultBody:
+          '"Kola Beats wants to negotiate ₦50,000 for the 4-hour session. Reply to this message to approve and send account details."'
       },
       {
-        node: 'STEP 06 // ACCOUNT AUTO-REPLY',
-        title: 'Manager Reply Triggers Bank Details',
+        badge: 'Step 6 • Account Auto-Reply',
+        title: 'Your Reply Sends Bank Details Automatically',
         detail:
-          'Replying to the alert automatically sends the studio account number to the client.',
-        payload: `{
-  "manager_reply": "Approved 50k",
-  "agreed_amount_ngn": 50000,
-  "sent_to_client": "Agreed at N50,000. Pay to DAW Studios | 0123456789 (GTBank) & share receipt."
-}`
+          'Once you reply to approve the agreed price, the system automatically sends your studio account number to the client.',
+        channel: 'WhatsApp Message to Client',
+        resultTitle: 'Agreed Rate: ₦50,000 — Account Details Sent',
+        resultBody:
+          '"Your session is approved at ₦50,000. Please transfer to DAW Studios (0123456789 - GTBank) and share your receipt here."'
       },
       {
-        node: 'STEP 07 // RECEIPT & BALANCE GUARD',
-        title: 'Receipt Verification & Shortfall Prompt',
+        badge: 'Step 7 • Receipt & Balance Guard',
+        title: 'Checks Receipt Amount & Asks for Balance if Short',
         detail:
-          'When the client shares a payment receipt, the system checks it against the agreed price and prompts for the balance if short.',
-        payload: `{
-  "agreed_amount_ngn": 50000,
-  "receipt_detected_ngn": 35000,
-  "balance_remaining_ngn": 15000,
-  "auto_reply": "Receipt of N35,000 received. Please complete the N15,000 balance to confirm slot."
-}`
+          'When the client uploads a transfer receipt, the system compares it to the agreed amount and automatically asks for the remaining balance if they underpaid.',
+        channel: 'Automatic Receipt Verification',
+        resultTitle: 'Short Payment Caught: ₦35,000 Paid of ₦50,000 Agreed',
+        resultBody:
+          '"We received your ₦35,000 transfer receipt. Please complete the remaining ₦15,000 balance to lock in your Nov 24 session."'
       }
     ]
   },
@@ -285,58 +253,54 @@ const TOP_SYSTEMS = [
     id: 'real-estate-shortlet',
     number: '05',
     sector: 'BOOKINGS',
-    tag: 'N8N LEAD & INSPECTION PIPELINE',
+    tag: 'Property & Short-Let Automation',
     title: 'Real Estate & Short-Let Ops',
-    subtitle: 'Automated Inspection Scheduling, Calendar Blocking & Deposit Alerts',
+    subtitle: 'Automated Inspection Scheduling, Calendar Lock & Deposit Alerts',
     liveUrl: null,
     leakStopped:
-      'Stops property agents and short-let hosts from losing warm leads to slow replies or overlapping inspection and check-in dates.',
+      'Stops agents and short-let hosts from losing serious prospects to slow replies or double-booked inspection and check-in dates.',
     automationNote:
-      'We built an n8n workflow that captures inquiries, logs budgets/dates in Google Sheets, blocks inspection or stay slots on Calendar, and manages WhatsApp deposit confirmations.',
+      'Logs property inquiries in Google Sheets, blocks inspection/stay dates on Calendar, and manages WhatsApp deposit confirmations.',
     steps: [
       {
-        node: 'INTAKE // PROPERTY & STAY DATES',
-        title: 'Prospect Budget & Date Capture',
+        badge: 'Step 1 • Inquiry Intake',
+        title: 'Property / Stay Dates & Budget Captured',
         detail:
-          'Prospect submits property/unit interest, budget, and preferred inspection or check-in dates.',
-        payload: `{
-  "unit": "2-Bed Serviced Short-Let (Gbagada)",
-  "prospect": "Chinedu M.",
-  "dates": "Nov 28 - Dec 01, 2026 (3 Nights)",
-  "total_rate_ngn": 240000
-}`
+          'Prospect submits the apartment they want, their budget, and preferred inspection or check-in dates.',
+        channel: 'Property Inquiry Form',
+        resultTitle: '2-Bed Serviced Short-Let (Gbagada) • 3 Nights',
+        resultBody:
+          '"Prospect: Chinedu M. | Check-in: Nov 28 – Dec 1 | Total Rate: ₦240,000."'
       },
       {
-        node: 'CRM // GOOGLE SHEETS PIPELINE',
-        title: 'Automated Lead & Budget Logging',
+        badge: 'Step 2 • Lead Tracker',
+        title: 'Saved to Agent / Host Google Sheet',
         detail:
-          'Lead data logs automatically into Google Sheets for structured pipeline tracking.',
-        payload: `{
-  "sheet": "ShortLet_&_Inspection_Leads",
-  "prospect": "Chinedu M.",
-  "status": "HOLD_PENDING_DEPOSIT"
-}`
+          'Every prospect is logged automatically so you can track warm leads, inspections, and pending deposits.',
+        channel: 'Google Sheets Pipeline',
+        resultTitle: 'Lead Logged — Status: Holding Dates for Deposit',
+        resultBody:
+          'No more scrolling through hundreds of unread WhatsApp messages to remember who asked for which apartment.'
       },
       {
-        node: 'CALENDAR // STAY / INSPECTION LOCK',
-        title: 'Double-Booking Calendar Block',
+        badge: 'Step 3 • Date Protection',
+        title: 'Inspection or Stay Blocked on Calendar',
         detail:
-          'Inspection or stay window blocks on Google Calendar to prevent scheduling clashes.',
-        payload: `{
-  "calendar": "Gbagada_Unit_A_Availability",
-  "blocked_range": "2026-11-28 to 2026-12-01",
-  "overlap_status": "PROTECTED"
-}`
+          'Blocks the inspection slot or short-let stay dates on Google Calendar so two guests never clash.',
+        channel: 'Google Calendar',
+        resultTitle: 'Unit A Blocked: Nov 28 – Dec 1',
+        resultBody:
+          'Calendar prevents accidental double-bookings while the prospect completes their commitment deposit.'
       },
       {
-        node: 'WHATSAPP // DEPOSIT & HOST ALERT',
-        title: 'Instant Unit Info & Host Confirmation Flow',
+        badge: 'Step 4 • Instant WhatsApp Follow-Up',
+        title: 'Unit Details to Guest + Alert to You',
         detail:
-          'Instant WhatsApp message sends unit details and deposit terms while alerting the agent/host for one-tap confirmation.',
-        payload: `{
-  "prospect_msg": "Unit available Nov 28-Dec 1 (N240k). Caution + 50% deposit holds dates.",
-  "host_alert": "NEW HOLD: Chinedu M. | 3 Nights | Reply CONFIRM once deposit drops."
-}`
+          'Prospect receives apartment rules and deposit info immediately while you get a one-tap confirmation alert.',
+        channel: 'WhatsApp Confirmation',
+        resultTitle: 'Instant Reply Sent & Host Notified',
+        resultBody:
+          'To Guest: "Unit A is available Nov 28–Dec 1 (₦240k). 50% deposit secures check-in." | To You: "NEW HOLD: Chinedu M. (3 Nights)."'
       }
     ]
   }
@@ -345,171 +309,161 @@ const TOP_SYSTEMS = [
 const OTHER_BUILDS = [
   {
     id: 'salon-beauty',
-    tag: 'N8N APPOINTMENT WORKFLOW',
+    tag: 'Salon & Beauty Workflow',
     title: 'Salon & Beauty Studio Booking Flow',
     liveUrl: null,
     summary:
-      'We built an n8n workflow that captures service bookings (hair, nails, makeup, grooming), logs appointments in Google Sheets, locks stylist calendar slots, sends WhatsApp prep/deposit instructions, and triggers front-desk alerts.',
+      'Captures hair, nails, makeup, and grooming bookings, logs appointments in Google Sheets, locks stylist calendar slots, sends WhatsApp prep/deposit instructions, and alerts the front desk.',
     steps: [
       {
-        node: 'BOOKING // SERVICE & STYLIST',
-        title: 'Client Service & Time Slot Intake',
+        badge: 'Step 1 • Service Selection',
+        title: 'Client Picks Service, Stylist & Time',
         detail:
-          'Client books service category, stylist preference, and time slot.',
-        payload: `{
-  "client": "Amaka E.",
-  "service": "Knotless Braids (Medium)",
-  "stylist": "Chair 02 - Blessing",
-  "slot": "Saturday 11:00 AM"
-}`
+          'Client chooses their beauty service, preferred stylist chair, and appointment time.',
+        channel: 'Salon Booking Page',
+        resultTitle: 'Knotless Braids (Medium) • Saturday at 11:00 AM',
+        resultBody:
+          '"Client: Amaka E. | Stylist: Chair 02 (Blessing) | Duration: 3 Hours."'
       },
       {
-        node: 'SYNC // SHEETS + STYLIST CALENDAR',
-        title: 'Appointment Log & Chair Lock',
+        badge: 'Step 2 • Chair Lock',
+        title: 'Saved to Sheet & Stylist Calendar Blocked',
         detail:
-          'n8n logs the appointment into Google Sheets and reserves the time on Google Calendar.',
-        payload: `{
-  "sheet_logged": true,
-  "calendar_event": "Chair 02 | Amaka E. - Knotless Braids",
-  "double_book_guard": "ACTIVE"
-}`
+          'Logs the appointment in Google Sheets and blocks the stylist’s calendar so chairs are never double-booked.',
+        channel: 'Google Calendar & Sheet',
+        resultTitle: 'Chair 02 Locked for Saturday 11:00 AM',
+        resultBody:
+          'Front desk and stylist see the exact schedule for the day without overlap.'
       },
       {
-        node: 'CLIENT // DEPOSIT & PREP WHATSAPP',
-        title: 'Automated Prep & Deposit Instructions',
+        badge: 'Step 3 • Client Prep Message',
+        title: 'WhatsApp Deposit & Prep Instructions',
         detail:
-          'Automated WhatsApp confirmation sends deposit rules and prep notes to the client.',
-        payload: `{
-  "whatsapp_to_client": "Hi Amaka! Your Sat 11AM slot is reserved. N5,000 commitment deposit secures chair."
-}`
+          'Sends an automatic WhatsApp confirmation with deposit rules and hair/nail prep notes.',
+        channel: 'WhatsApp Message to Client',
+        resultTitle: 'Slot Reserved — Deposit & Prep Note Sent',
+        resultBody:
+          '"Hi Amaka! Your Sat 11 AM appointment is reserved. Please pay the ₦5,000 commitment deposit to lock your chair."'
       },
       {
-        node: 'DESK // STYLIST ALERT',
-        title: 'Front-Desk & Stylist Notification',
+        badge: 'Step 4 • Desk Alert',
+        title: 'Instant Front-Desk Notification',
         detail:
-          'Stylist/front desk receives instant booking and deposit status alerts.',
-        payload: `{
-  "desk_alert": "BOOKED: Amaka E. | Sat 11AM | Chair 02 | Deposit: PENDING"
-}`
+          'Your front desk or stylist receives an immediate summary of the booking and deposit status.',
+        channel: 'WhatsApp Alert to Salon Desk',
+        resultTitle: 'New Booking: Amaka E. (Sat 11 AM)',
+        resultBody:
+          '"Service: Knotless Braids | Chair 02 | Commitment Deposit: Awaiting Receipt."'
       }
     ]
   },
   {
     id: 'entrii',
-    tag: 'PRIVATE PRODUCTION PLATFORM',
+    tag: 'Private Production Platform',
     title: 'Entrii — Event Ticketing & Gate Check-In',
     liveUrl: null,
     summary:
-      'Private event ticketing and guest verification platform handling Free/Private RSVPs, Paid ticket checkout with automated Paystack subaccount revenue splitting, and fast venue check-in.',
+      'Private event ticketing and guest verification platform handling Free/Private RSVPs, Paid ticket checkout with automated Paystack revenue splitting, and fast venue gate check-in.',
     steps: [
       {
-        node: 'ACCESS // FREE & PAID TIERS',
-        title: 'Private RSVP & Paid Ticket Checkout',
+        badge: 'Step 1 • Event Registration',
+        title: 'Free/Private RSVP & Paid Ticket Checkout',
         detail:
-          'Supports both free/private guest lists and paid ticket tiers.',
-        payload: `{
-  "event": "Lagos Night Sessions Vol. 4",
-  "tier": "VIP Table Pass",
-  "price_ngn": 25000,
-  "mode": "PAID_CHECKOUT"
-}`
+          'Supports invite-only guest lists as well as paid ticket tiers in one smooth flow.',
+        channel: 'Event Guest Pass',
+        resultTitle: 'VIP Table Pass Issued — Lagos Night Sessions',
+        resultBody:
+          'Guests receive a verified digital pass immediately after registering or paying.'
       },
       {
-        node: 'SETTLEMENT // PAYSTACK SPLIT',
-        title: 'Automated Subaccount Revenue Split',
+        badge: 'Step 2 • Instant Revenue Split',
+        title: 'Automated Paystack Payout Splitting',
         detail:
-          'Splits ticket revenue automatically at checkout via Paystack subaccounts.',
-        payload: `{
-  "gateway": "Paystack_Split",
-  "organizer_share_pct": 95,
-  "platform_fee_pct": 5,
-  "settlement": "INSTANT_SPLIT"
-}`
+          'Ticket revenue splits automatically at checkout via Paystack subaccounts—no manual end-of-event calculations.',
+        channel: 'Automated Settlement',
+        resultTitle: '₦25,000 Ticket Split Automatically at Checkout',
+        resultBody:
+          'Organizer share and partner/platform shares route to their respective bank accounts automatically.'
       },
       {
-        node: 'GATE // GUEST VERIFICATION',
-        title: 'Fast Venue Check-In Verification',
+        badge: 'Step 3 • Fast Gate Entry',
+        title: 'One-Scan Gate Check-In Verification',
         detail:
-          'Replaces fake transfer screenshots and manual paper lists with fast gate check-in verification.',
-        payload: `{
-  "pass_code": "ENT-9941-VIP",
-  "gate_scan": "VALID_UNUSED",
-  "checked_in_at": "22:14 WAT"
-}`
+          'Replaces fake transfer screenshots and slow paper guest lists at the venue entrance.',
+        channel: 'Door Security Check-In',
+        resultTitle: 'Pass #ENT-9941 Verified — Valid Entry',
+        resultBody:
+          'Marks the pass as checked in immediately so the same ticket cannot be shared twice at the gate.'
       }
     ]
   },
   {
     id: 'vintage-productions',
-    tag: 'LIVE CLIENT WEB TOOL',
+    tag: 'Live Client Billing Tool',
     title: 'Vintage Productions Invoice Generator',
     liveUrl: 'https://vintage-invoice-generator.vercel.app/',
     summary:
-      'Custom browser-based billing and quote generator built for a live sound engineering operation—formatting equipment rentals, event packages, and balances into clean shareable invoices.',
+      'Custom browser-based billing and quote generator built for a live sound engineering business—formatting equipment rentals, event packages, and balances into clean shareable invoices.',
     steps: [
       {
-        node: 'LINE ITEMS // AUDIO GEAR & CREW',
-        title: 'Sound Equipment & Event Package Entry',
+        badge: 'Step 1 • Equipment & Crew',
+        title: 'Itemized Sound Gear & Event Packages',
         detail:
-          'Itemizes audio equipment rentals, crew fees, and multi-day event packages cleanly.',
-        payload: `{
-  "client": "Prime Event Planners",
-  "items": ["Line Array PA System (2 Days)", "Digital Mixer + FOH Engineer"],
-  "currency": "NGN"
-}`
+          'Lists speakers, mixers, microphones, crew fees, and multi-day event rentals cleanly.',
+        channel: 'Invoice Builder',
+        resultTitle: '2-Day Live Event Sound Package Itemized',
+        resultBody:
+          '"Line Array PA System + Digital Console + FOH Sound Engineer — ₦450,000."'
       },
       {
-        node: 'TOTALS // DEPOSIT & BALANCE MATH',
-        title: 'Zero-Error Balance Calculation',
+        badge: 'Step 2 • Balance Math',
+        title: 'Automatic Deposit & Balance Calculation',
         detail:
-          'Calculates totals and client balances automatically without spreadsheet errors.',
-        payload: `{
-  "gross_total_ngn": 450000,
-  "advance_paid_ngn": 300000,
-  "balance_due_ngn": 150000
-}`
+          'Subtracts advance deposits automatically so the client sees their exact remaining balance.',
+        channel: 'Client Billing Summary',
+        resultTitle: 'Total: ₦450,000 • Advance Paid: ₦300,000 • Balance Due: ₦150,000',
+        resultBody:
+          'Eliminates manual calculator mistakes when sending revised event quotes.'
       },
       {
-        node: 'EXPORT // CLIENT-READY INVOICE',
-        title: 'Printable & Shareable Invoice Output',
+        badge: 'Step 3 • Instant Share',
+        title: 'Clean Printable & WhatsApp-Ready Invoice',
         detail:
-          'Generates clean, printable/shareable invoices ready for immediate client dispatch.',
-        payload: `{
-  "invoice_no": "VP-2026-084",
-  "format": "A4_PRINT_&_SHARE",
-  "status": "READY_TO_SEND"
-}`
+          'Outputs a branded, clean invoice ready to save as PDF or send straight to the event planner.',
+        channel: 'Finished Client Invoice',
+        resultTitle: 'Invoice #VP-2026-084 Ready to Send',
+        resultBody:
+          'Professional layout builds immediate trust with corporate and event clients.'
       }
     ]
   },
   {
     id: 'github-graveyard',
-    tag: 'LIVE WEB DIRECTORY',
+    tag: 'Live Web Directory',
     title: 'GitHub Graveyard',
     liveUrl: 'https://gitgraveyard.xyz',
     summary:
       'Curated public directory spotlighting abandoned and archived open-source repositories so builders can inspect past codebases and revive useful ideas.',
     steps: [
       {
-        node: 'INDEX // ARCHIVED REPOS',
-        title: 'Searchable Directory of Inactive Projects',
+        badge: 'Step 1 • Curated Index',
+        title: 'Searchable Directory of Archived Projects',
         detail:
-          'Indexes notable archived and inactive open-source projects in a searchable interface.',
-        payload: `{
-  "domain": "gitgraveyard.xyz",
-  "category": "Developer Tools / Archived OSS",
-  "filter_mode": "SEARCH_BY_STACK"
-}`
+          'Organizes notable inactive and archived open-source repositories in a clean browsing interface.',
+        channel: 'Live Directory (gitgraveyard.xyz)',
+        resultTitle: 'Browse Forgotten Open-Source Tools by Category',
+        resultBody:
+          'Lets developers quickly discover useful projects that stopped receiving updates.'
       },
       {
-        node: 'CONTEXT // REVIVAL INSIGHTS',
-        title: 'Repository History & Fork Context',
+        badge: 'Step 2 • Revival Context',
+        title: 'Project History & Fork Insights',
         detail:
-          'Highlights repository history and context for developers looking to fork or rebuild.',
-        payload: `{
-  "entry_status": "ARCHIVED",
-  "builder_action": "INSPECT_AND_FORK"
-}`
+          'Shows why a project mattered and gives builders context to fork or rebuild it.',
+        channel: 'Repository Card',
+        resultTitle: 'Inspect History & Revive Useful Codebases',
+        resultBody:
+          'Turns abandoned repositories into starting points for new tools.'
       }
     ]
   }
@@ -524,6 +478,162 @@ let currentModalItem = null;
 let currentStepIndex = 0;
 let autoPlayTimer = null;
 
+// Interactive Kinetic Signal Canvas (Hero Animation)
+function initOpsOrbitCanvas() {
+  const canvas = document.getElementById('opsOrbitCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let pointer = { x: 0.5, y: 0.5, active: false };
+  let animFrameId = null;
+
+  const nodes = [
+    { label: 'Order / Booking', angle: -Math.PI * 0.75, radiusFactor: 0.34, color: '#111827' },
+    { label: 'Stock Lock', angle: -Math.PI * 0.25, radiusFactor: 0.34, color: '#D97706' },
+    { label: 'WhatsApp Alert', angle: Math.PI * 0.25, radiusFactor: 0.34, color: '#111827' },
+    { label: 'Payment Check', angle: Math.PI * 0.75, radiusFactor: 0.34, color: '#D97706' }
+  ];
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = rect.width;
+    height = rect.height;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  canvas.addEventListener('pointermove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    pointer.x = (e.clientX - rect.left) / Math.max(1, rect.width);
+    pointer.y = (e.clientY - rect.top) / Math.max(1, rect.height);
+    pointer.active = true;
+  });
+
+  canvas.addEventListener('pointerleave', () => {
+    pointer.active = false;
+  });
+
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  function draw(now) {
+    const t = prefersReducedMotion ? 0 : now * 0.001;
+    const scrollBoost = Math.min(1.4, (window.scrollY || 0) * 0.0015);
+    ctx.clearRect(0, 0, width, height);
+
+    const tiltX = pointer.active ? (pointer.x - 0.5) * 18 : Math.sin(t * 0.6) * 5;
+    const tiltY = pointer.active ? (pointer.y - 0.5) * 14 : Math.cos(t * 0.5) * 4;
+    const cx = width * 0.5 + tiltX;
+    const cy = height * 0.5 + tiltY;
+    const baseRadius = Math.min(width, height) * 0.34;
+
+    // Subtle architectural grid dots
+    ctx.fillStyle = '#E5E7EB';
+    const gap = 22;
+    for (let gx = gap; gx < width; gx += gap) {
+      for (let gy = gap; gy < height; gy += gap) {
+        ctx.beginPath();
+        ctx.arc(gx, gy, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Concentric signal rings
+    [0.55, 0.85, 1.12].forEach((scale, idx) => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, baseRadius * scale, 0, Math.PI * 2);
+      ctx.strokeStyle = idx === 1 ? 'rgba(217, 119, 6, 0.28)' : 'rgba(17, 24, 39, 0.10)';
+      ctx.lineWidth = idx === 1 ? 1.5 : 1;
+      ctx.setLineDash(idx === 2 ? [4, 6] : []);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+
+    // Expanding live pulse wave from center hub
+    const pulseProgress = (t * 0.55 + scrollBoost) % 1;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18 + pulseProgress * baseRadius * 0.95, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(217, 119, 6, ${(1 - pulseProgress) * 0.45})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Compute orbiting satellite nodes & draw routing lines + traveling packets
+    nodes.forEach((node, idx) => {
+      const orbitAngle = node.angle + t * 0.35 + scrollBoost;
+      const nx = cx + Math.cos(orbitAngle) * baseRadius;
+      const ny = cy + Math.sin(orbitAngle) * baseRadius;
+
+      // Connection line to center hub
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(nx, ny);
+      ctx.strokeStyle = 'rgba(17, 24, 39, 0.16)';
+      ctx.lineWidth = 1.25;
+      ctx.stroke();
+
+      // Traveling signal dot along the line
+      const packetT = (t * 0.9 + idx * 0.25) % 1;
+      const px = cx + (nx - cx) * packetT;
+      const py = cy + (ny - cy) * packetT;
+      ctx.beginPath();
+      ctx.arc(px, py, 3, 0, Math.PI * 2);
+      ctx.fillStyle = '#D97706';
+      ctx.fill();
+
+      // Node pill
+      ctx.font = '600 10px Inter, sans-serif';
+      const textWidth = ctx.measureText(node.label).width;
+      const pillW = textWidth + 16;
+      const pillH = 22;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = node.color === '#D97706' ? '#D97706' : '#D1D5DB';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.roundRect(nx - pillW / 2, ny - pillH / 2, pillW, pillH, 999);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#111827';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.label, nx, ny + 0.5);
+    });
+
+    // Center Mukty Hub
+    ctx.beginPath();
+    ctx.arc(cx, cy, 24, 0, Math.PI * 2);
+    ctx.fillStyle = '#111827';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, 28, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(217, 119, 6, 0.45)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 10px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('MUKTY', cx, cy + 0.5);
+
+    if (!prefersReducedMotion) {
+      animFrameId = window.requestAnimationFrame(draw);
+    }
+  }
+
+  animFrameId = window.requestAnimationFrame(draw);
+}
+
 function updateScrollChoreography() {
   scrollRafId = null;
   const scrollTop = window.scrollY || window.pageYOffset || 0;
@@ -531,25 +641,21 @@ function updateScrollChoreography() {
   const pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
 
   const progressBar = document.getElementById('scrollProgressBar');
-  const watermark = document.getElementById('heroWatermark');
   const topHeading = document.getElementById('topSystemsHeading');
   const otherHeading = document.getElementById('otherBuildsHeading');
 
   if (progressBar) {
     progressBar.style.width = `${pct.toFixed(2)}%`;
   }
-  if (watermark) {
-    watermark.style.transform = `translate3d(${-(scrollTop * 0.16).toFixed(1)}px, ${(scrollTop * 0.08).toFixed(1)}px, 0)`;
-  }
   if (topHeading) {
     const rect = topHeading.getBoundingClientRect();
-    const offset = Math.max(-18, Math.min(18, (rect.top - window.innerHeight * 0.45) * 0.04));
-    topHeading.style.transform = `translate3d(${(-offset * 0.5).toFixed(1)}px, 0, 0)`;
+    const offset = Math.max(-16, Math.min(16, (rect.top - window.innerHeight * 0.45) * 0.035));
+    topHeading.style.transform = `translate3d(${(-offset * 0.45).toFixed(1)}px, 0, 0)`;
   }
   if (otherHeading) {
     const rect = otherHeading.getBoundingClientRect();
-    const offset = Math.max(-18, Math.min(18, (rect.top - window.innerHeight * 0.45) * 0.04));
-    otherHeading.style.transform = `translate3d(${(-offset * 0.5).toFixed(1)}px, 0, 0)`;
+    const offset = Math.max(-16, Math.min(16, (rect.top - window.innerHeight * 0.45) * 0.035));
+    otherHeading.style.transform = `translate3d(${(-offset * 0.45).toFixed(1)}px, 0, 0)`;
   }
 
   document.querySelectorAll('.system-card').forEach((card, idx) => {
@@ -557,7 +663,7 @@ function updateScrollChoreography() {
     const cardCenter = rect.top + rect.height * 0.5;
     const norm = (cardCenter - window.innerHeight * 0.5) / window.innerHeight;
     const direction = idx % 2 === 0 ? -1 : 1;
-    const shift = Math.max(-8, Math.min(8, norm * 10 * direction));
+    const shift = Math.max(-7, Math.min(7, norm * 9 * direction));
     card.style.setProperty('--scroll-shift', `${shift.toFixed(1)}px`);
   });
 }
@@ -625,48 +731,48 @@ function renderTopSystems() {
             href="${sys.liveUrl}"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-mono text-xs font-bold uppercase px-4 py-2.5 bg-[#F5F5F4] text-[#0A0A0B] hover:bg-[#DC2626] hover:text-[#F5F5F4] transition"
+            class="text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-lg bg-[#111827] text-[#FFFFFF] hover:bg-[#D97706] transition"
           >
-            Live System ↗
+            Open Live Site ↗
           </a>`
-        : `<span class="font-mono text-[11px] uppercase px-3 py-2 border border-[#F5F5F4]/15 text-[#F5F5F4]/60">
-            Client Production Flow
+        : `<span class="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#F3F4F6] text-[#4B5563]">
+            Live Client Workflow
           </span>`;
 
       return `
-        <article class="${spanClass} system-card scroll-reveal border border-[#F5F5F4]/15 bg-[#F5F5F4]/[0.02] hover:border-[#F5F5F4]/40 flex flex-col justify-between p-6 sm:p-7 space-y-6">
+        <article class="${spanClass} system-card scroll-reveal rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#D97706] flex flex-col justify-between p-6 sm:p-7 space-y-6">
           <div class="space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2">
-              <span class="font-mono text-xs text-[#DC2626] font-bold tracking-wider">
-                [${sys.number}] ${sys.tag}
+              <span class="text-xs font-bold uppercase tracking-wider text-[#D97706]">
+                ${sys.number} &bull; ${sys.tag}
               </span>
             </div>
 
             <div>
-              <h3 class="text-xl sm:text-2xl font-bold tracking-tight">${sys.title}</h3>
-              <p class="font-mono text-xs text-[#F5F5F4]/65 mt-1">${sys.subtitle}</p>
+              <h3 class="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-[#111827]">${sys.title}</h3>
+              <p class="text-xs sm:text-sm font-medium text-[#6B7280] mt-1">${sys.subtitle}</p>
             </div>
 
             <div class="space-y-3 pt-1">
-              <div class="p-3.5 bg-[#0A0A0B] border border-[#F5F5F4]/12">
-                <p class="font-mono text-[11px] uppercase text-[#F5F5F4]/50 mb-1">Revenue / Ops Leak Stopped</p>
-                <p class="text-sm text-[#F5F5F4]/90 leading-relaxed">${sys.leakStopped}</p>
+              <div class="p-4 rounded-xl bg-[#FAFAFA] border border-[#F3F4F6]">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-[#6B7280] mb-1">Business Problem Solved</p>
+                <p class="text-sm text-[#1F2937] leading-relaxed">${sys.leakStopped}</p>
               </div>
 
-              <div class="p-3.5 bg-[#0A0A0B] border border-[#F5F5F4]/12">
-                <p class="font-mono text-[11px] uppercase text-[#DC2626] mb-1">Automation Layer</p>
-                <p class="text-sm text-[#F5F5F4]/80 leading-relaxed">${sys.automationNote}</p>
+              <div class="p-4 rounded-xl bg-[#FFFBEB] border border-[#FDE68A]">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-[#B45309] mb-1">What Runs Automatically</p>
+                <p class="text-sm text-[#374151] leading-relaxed">${sys.automationNote}</p>
               </div>
             </div>
           </div>
 
-          <div class="pt-4 border-t border-[#F5F5F4]/12 flex flex-wrap items-center justify-between gap-3">
+          <div class="pt-4 border-t border-[#F3F4F6] flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
               onclick="openWorkflowModal('${sys.id}', 'TOP')"
-              class="font-mono text-xs font-bold uppercase px-4 py-2.5 border border-[#F5F5F4]/30 text-[#F5F5F4] hover:border-[#DC2626] hover:text-[#DC2626] transition"
+              class="text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-lg border border-[#D1D5DB] text-[#111827] hover:border-[#111827] bg-[#FFFFFF] transition"
             >
-              Run Workflow (${sys.steps.length} Nodes) &#9654;
+              See How It Works (${sys.steps.length} Steps) &#9654;
             </button>
             ${liveBtn}
           </div>
@@ -687,30 +793,30 @@ function renderOtherBuilds() {
           href="${item.liveUrl}"
           target="_blank"
           rel="noopener noreferrer"
-          class="font-mono text-xs font-bold uppercase text-[#F5F5F4] hover:text-[#DC2626] transition"
+          class="text-xs font-bold text-[#111827] hover:text-[#D97706] transition"
         >
-          Open Link ↗
+          Visit Site ↗
         </a>`
-      : `<span class="font-mono text-[11px] uppercase text-[#F5F5F4]/45">Private / Internal</span>`;
+      : `<span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F3F4F6] text-[#6B7280]">Private / Client Build</span>`;
 
     return `
-      <article class="system-card scroll-reveal border border-[#F5F5F4]/12 bg-[#F5F5F4]/[0.015] hover:border-[#F5F5F4]/35 p-5 sm:p-6 flex flex-col justify-between space-y-5">
+      <article class="system-card scroll-reveal rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#111827] p-6 flex flex-col justify-between space-y-5">
         <div class="space-y-2.5">
           <div class="flex items-center justify-between gap-2">
-            <span class="font-mono text-[11px] uppercase tracking-wider text-[#F5F5F4]/60">${item.tag}</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-[#D97706]">${item.tag}</span>
             ${actionLink}
           </div>
-          <h3 class="text-lg font-bold">${item.title}</h3>
-          <p class="text-sm text-[#F5F5F4]/75 leading-relaxed">${item.summary}</p>
+          <h3 class="font-display text-lg font-extrabold text-[#111827]">${item.title}</h3>
+          <p class="text-sm text-[#4B5563] leading-relaxed">${item.summary}</p>
         </div>
 
-        <div class="pt-3 border-t border-[#F5F5F4]/10 flex items-center justify-between">
+        <div class="pt-3 border-t border-[#F3F4F6] flex items-center justify-between">
           <button
             type="button"
             onclick="openWorkflowModal('${item.id}', 'OTHER')"
-            class="font-mono text-xs uppercase underline text-[#F5F5F4]/80 hover:text-[#DC2626] transition"
+            class="text-xs sm:text-sm font-semibold text-[#111827] hover:text-[#D97706] transition"
           >
-            Step Through Nodes (${item.steps.length}) &rarr;
+            Preview Customer Flow (${item.steps.length} Steps) &rarr;
           </button>
         </div>
       </article>
@@ -726,8 +832,8 @@ function filterTopSystems(filter) {
   document.querySelectorAll('.filter-btn').forEach((btn) => {
     const isSelected = btn.getAttribute('data-filter') === filter;
     btn.className = isSelected
-      ? 'filter-btn font-mono text-xs uppercase px-3 py-1.5 border border-[#DC2626] bg-[#DC2626] text-[#F5F5F4] font-semibold'
-      : 'filter-btn font-mono text-xs uppercase px-3 py-1.5 border border-[#F5F5F4]/20 text-[#F5F5F4]/80 hover:border-[#F5F5F4]';
+      ? 'filter-btn text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg bg-[#111827] text-[#FFFFFF] transition'
+      : 'filter-btn text-xs sm:text-sm font-semibold px-4 py-2 rounded-lg bg-[#FFFFFF] border border-[#D1D5DB] text-[#374151] hover:border-[#111827] transition';
   });
   renderTopSystems();
 }
@@ -739,7 +845,7 @@ function stopAutoRunSteps() {
   }
   const btn = document.getElementById('stepAutoPlayBtn');
   if (btn) {
-    btn.textContent = 'Auto-Run ▶';
+    btn.textContent = 'Auto-Play ▶';
   }
 }
 
@@ -771,7 +877,7 @@ function toggleAutoRunSteps() {
     } else {
       stopAutoRunSteps();
     }
-  }, 1600);
+  }, 1800);
 }
 
 function selectModalStep(index) {
@@ -795,55 +901,51 @@ function renderModalStepState() {
   const total = steps.length;
   const activeStep = steps[currentStepIndex];
 
-  // Update counter and prev/next buttons
-  const pad = (n) => String(n).padStart(2, '0');
-  document.getElementById('stepCounter').textContent = `${pad(currentStepIndex + 1)} / ${pad(total)}`;
+  document.getElementById('stepCounter').textContent = `Step ${currentStepIndex + 1} of ${total}`;
   document.getElementById('stepPrevBtn').disabled = currentStepIndex === 0;
   document.getElementById('stepNextBtn').disabled = currentStepIndex === total - 1;
 
-  // Update segmented progress track
   const track = document.getElementById('stepProgressTrack');
   track.style.gridTemplateColumns = `repeat(${total}, minmax(0, 1fr))`;
   track.innerHTML = steps
     .map((_, idx) => {
       const stateClass =
         idx < currentStepIndex
-          ? 'bg-[#DC2626]/65'
+          ? 'bg-[#D97706]/55'
           : idx === currentStepIndex
-            ? 'bg-[#DC2626]'
-            : 'bg-[#F5F5F4]/15';
+            ? 'bg-[#D97706]'
+            : 'bg-[#E5E7EB]';
       return `<button
         type="button"
         aria-label="Go to step ${idx + 1}"
         onclick="selectModalStep(${idx})"
-        class="h-1.5 ${stateClass} transition-colors"
+        class="h-1.5 rounded-full ${stateClass} transition-colors"
       ></button>`;
     })
     .join('');
 
-  // Render clickable node list
   const stepsList = document.getElementById('modalSteps');
   stepsList.innerHTML = steps
     .map((step, index) => {
       const isCurrent = index === currentStepIndex;
       const isDone = index < currentStepIndex;
-      const statusMark = isCurrent ? 'ACTIVE' : isDone ? 'DONE' : 'QUEUED';
+      const statusMark = isCurrent ? 'Viewing' : isDone ? 'Done' : `Step ${index + 1}`;
       return `
         <li>
           <button
             type="button"
             onclick="selectModalStep(${index})"
-            class="node-step-btn w-full text-left flex items-center justify-between gap-3 p-3 border border-[#F5F5F4]/12 bg-[#F5F5F4]/[0.02] hover:border-[#F5F5F4]/35 ${isCurrent ? 'is-active' : ''}"
+            class="node-step-btn w-full text-left flex items-center justify-between gap-3 p-3 rounded-xl border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#111827] ${isCurrent ? 'is-active' : ''}"
           >
             <div class="flex items-center gap-2.5 min-w-0">
-              <span class="font-mono text-xs font-bold ${isCurrent ? 'text-[#DC2626]' : 'text-[#F5F5F4]/60'} shrink-0">
-                ${pad(index + 1)}
+              <span class="text-xs font-extrabold ${isCurrent ? 'text-[#B45309]' : 'text-[#6B7280]'} shrink-0">
+                0${index + 1}
               </span>
-              <span class="text-xs sm:text-sm font-medium truncate ${isCurrent ? 'text-[#F5F5F4]' : 'text-[#F5F5F4]/80'}">
+              <span class="text-xs sm:text-sm font-semibold truncate ${isCurrent ? 'text-[#111827]' : 'text-[#374151]'}">
                 ${step.title}
               </span>
             </div>
-            <span class="font-mono text-[10px] uppercase shrink-0 ${isCurrent ? 'text-[#DC2626] font-bold' : 'text-[#F5F5F4]/45'}">
+            <span class="text-[11px] font-semibold shrink-0 ${isCurrent ? 'text-[#B45309]' : 'text-[#9CA3AF]'}">
               ${statusMark}
             </span>
           </button>
@@ -852,30 +954,14 @@ function renderModalStepState() {
     })
     .join('');
 
-  // Update active node inspector & runtime payload
-  document.getElementById('activeNodeBadge').textContent = activeStep.node;
+  document.getElementById('activeNodeBadge').textContent = activeStep.badge;
   document.getElementById('activeNodeStatus').textContent =
-    currentStepIndex === total - 1 ? 'COMPLETED' : `STEP ${pad(currentStepIndex + 1)} RUNNING`;
+    currentStepIndex === total - 1 ? 'Final Outcome' : `Step ${currentStepIndex + 1} of ${total}`;
   document.getElementById('activeNodeTitle').textContent = activeStep.title;
   document.getElementById('activeNodeDesc').textContent = activeStep.detail;
-  document.getElementById('activeNodePayload').textContent = activeStep.payload;
-  document.getElementById('copyPayloadBtn').textContent = 'Copy JSON';
-}
-
-function copyCurrentPayload() {
-  if (!currentModalItem) return;
-  const payload = currentModalItem.steps[currentStepIndex]?.payload || '';
-  if (!payload) return;
-
-  navigator.clipboard?.writeText(payload).then(() => {
-    const btn = document.getElementById('copyPayloadBtn');
-    if (btn) {
-      btn.textContent = 'Copied ✓';
-      setTimeout(() => {
-        btn.textContent = 'Copy JSON';
-      }, 1500);
-    }
-  });
+  document.getElementById('resultChannelLabel').textContent = activeStep.channel;
+  document.getElementById('activeNodeResultTitle').textContent = activeStep.resultTitle;
+  document.getElementById('activeNodeResultBody').textContent = activeStep.resultBody;
 }
 
 function openWorkflowModal(id, group) {
@@ -900,7 +986,7 @@ function openWorkflowModal(id, group) {
   }
 
   const waMsg = encodeURIComponent(
-    `Hi Mukty, I inspected "${item.title}" on your portfolio and want a similar system set up for my business.`
+    `Hi Mukty, I checked out "${item.title}" on your portfolio and want a similar system set up for my business.`
   );
   document.getElementById('modalWhatsappBtn').href = `https://wa.me/2349065086844?text=${waMsg}`;
 
@@ -939,3 +1025,4 @@ document.addEventListener('keydown', (e) => {
 renderTopSystems();
 renderOtherBuilds();
 initScrollEffects();
+initOpsOrbitCanvas();

@@ -1,11 +1,11 @@
 body {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #0A0A0B;
-  color: #F5F5F4;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #FAFAFA;
+  color: #111827;
 }
 
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
+.font-display {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Scroll-Driven Reveal Motion */
@@ -13,8 +13,8 @@ body {
   opacity: 0;
   transform: translate3d(0, 18px, 0) scale(0.992);
   transition:
-    opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--stagger, 0ms);
   will-change: opacity, transform;
 }
@@ -28,16 +28,17 @@ body {
 .system-card {
   transform: translate3d(0, var(--scroll-shift, 0px), 0);
   transition:
-    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.22s ease,
-    background-color 0.22s ease;
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.24s ease,
+    box-shadow 0.24s ease;
 }
 
 .system-card:hover {
-  transform: translate3d(0, calc(var(--scroll-shift, 0px) - 3px), 0);
+  transform: translate3d(0, calc(var(--scroll-shift, 0px) - 4px), 0);
+  box-shadow: 0 12px 28px -8px rgba(17, 24, 39, 0.08);
 }
 
-/* Modal Node Step Transitions */
+/* Modal Step Button Active State */
 .node-step-btn {
   transition:
     border-color 0.18s ease,
@@ -46,8 +47,8 @@ body {
 }
 
 .node-step-btn.is-active {
-  border-color: #DC2626;
-  background-color: rgba(220, 38, 38, 0.12);
+  border-color: #D97706;
+  background-color: #FEF3C7;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -55,7 +56,6 @@ body {
   .scroll-reveal.is-visible,
   .system-card,
   .system-card:hover,
-  #heroWatermark,
   #topSystemsHeading,
   #otherBuildsHeading {
     opacity: 1 !important;
@@ -64,20 +64,21 @@ body {
   }
 }
 
-/* Custom Subtle Scrollbar */
+/* Clean Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0A0B;
+  background: #FAFAFA;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272A;
+  background: #D1D5DB;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #DC2626;
+  background: #9CA3AF;
 }
