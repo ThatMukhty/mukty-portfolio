@@ -306,6 +306,51 @@ const TOP_SYSTEMS = [
   }
 ];
 
+const AI_CAPABILITIES = [
+  {
+    code: '01',
+    title: 'AI Agents & Task Assistants',
+    summary:
+      'Goal-driven AI workflows that qualify leads, extract details from messy messages or receipts, draft structured responses, and hand off clean actions with human guardrails.',
+    outcome: 'Cuts repetitive triage while keeping you in charge of high-stakes approvals.'
+  },
+  {
+    code: '02',
+    title: 'AI Chatbots & Guided Intake',
+    summary:
+      'Conversational flows that answer FAQs, collect booking/order requirements, check availability rules, and route qualified inquiries instead of letting leads go cold.',
+    outcome: '24/7 front-line responsiveness without leaving customers waiting in silence.'
+  },
+  {
+    code: '03',
+    title: 'Business Process Automation',
+    summary:
+      'End-to-end n8n pipelines that connect forms, payment/receipt checks, calendar holds, and team alerts so routine operations run automatically.',
+    outcome: 'Eliminates manual copy-pasting and human forgetfulness across daily tasks.'
+  },
+  {
+    code: '04',
+    title: 'API & Webhook Integrations',
+    summary:
+      'Custom integrations linking messaging APIs, payment gateways (like Paystack splits), webhooks, and external services into one reliable chain.',
+    outcome: 'Keeps your storefront, payments, and alerts talking in real time.'
+  },
+  {
+    code: '05',
+    title: 'Data Management & Structured Logs',
+    summary:
+      'Clean data models across Google Sheets, Supabase, and PostgreSQL so orders, distributor balances, bookings, and ledgers stay searchable and auditable.',
+    outcome: 'Turns scattered chat history into clear numbers you can actually trust.'
+  },
+  {
+    code: '06',
+    title: 'Custom Web Applications',
+    summary:
+      'Fast, mobile-first web apps and operational dashboards—from ordering menus and ledgers to invoice tools and event check-in systems.',
+    outcome: 'Purpose-built interfaces tailored to how your business actually operates.'
+  }
+];
+
 const OTHER_BUILDS = [
   {
     id: 'salon-beauty',
@@ -469,6 +514,58 @@ const OTHER_BUILDS = [
   }
 ];
 
+const TESTIMONIALS = [
+  {
+    quote:
+      'Instead of losing track of session requests, calendar slots, and payment balances across busy WhatsApp chats, bookings now log and update with clear step-by-step control.',
+    author: 'Studio Operations — DAW Studios',
+    context: 'Gbagada • Booking, Calendar & Receipt Flow',
+    metric: '7 Automated Steps'
+  },
+  {
+    quote:
+      'Tracking daily bread batches, distributor credit balances, and closing cash vs. transfer totals is vastly clearer than flipping through handwritten pages after a long run.',
+    author: 'Bakery Proprietor — Bakery Ledger',
+    context: 'Daily Production & Distributor Debt Tracking',
+    metric: 'Real-Time Debt & Cash View'
+  },
+  {
+    quote:
+      'Putting event equipment rentals, deposits, and remaining balances into a clean shareable invoice saves time on quotes and makes billing look sharp from the first send.',
+    author: 'Sound Engineering Lead — Vintage Productions',
+    context: 'Event Billing & Quote Workflow',
+    metric: 'Instant Shareable Invoices'
+  }
+];
+
+const BRUTAL_FAQS = [
+  {
+    q: 'If I’m asleep, in traffic, or stuck with another customer, does my business still take orders and bookings properly?',
+    pain: 'Every hour a buyer or client waits for a price, slot check, or reply in WhatsApp is another hour they lose interest—or order from a competitor who answered faster.',
+    fix: 'Orders, inquiries, and bookings are captured cleanly, slots/portions are locked automatically, and instant confirmations/alerts fire without waiting for you to pick up your phone.'
+  },
+  {
+    q: 'What happens when a customer bargains hard or sends less money than we agreed on?',
+    pain: 'Quick glances at transfer alerts, verbal discounts in chat, and unverified receipts let short payments slip through—turning a "sale" into lost margin.',
+    fix: 'Bargain requests alert you directly for approval, payment details send once agreed, and receipt checks flag shortfalls so remaining balances aren’t missed.'
+  },
+  {
+    q: 'At the end of the day, how do I know money wasn’t pocketed, miscounted, or lost in old chats?',
+    pain: 'Guessing numbers from scattered messages or half-updated notebooks leaves you blind to missing cash, unrecorded orders, or silent leaks at closing time.',
+    fix: 'Structured order/booking logs, stock/balance tracking, and clear summaries put exact numbers in one place so discrepancies stand out fast.'
+  },
+  {
+    q: 'How do I stop people from taking stock, loaves, items, or slots on credit/promise and dragging payment for weeks?',
+    pain: 'Letting distributors, regular buyers, or walk-ins take value on trust without clean tracking turns your working capital into slow, forgotten debts nobody chases properly.',
+    fix: 'Balances, partial payments, and deposits are tracked systematically so you always see who owes what instead of realizing weeks later your cash is tied up.'
+  },
+  {
+    q: 'How much money am I losing right now just from messy WhatsApp back-and-forth—\'How much?\', \'Where are you?\', \'Is it available?\', \'Sent\'?',
+    pain: 'Spending hours every day answering the same repetitive questions and hunting for proof of payment steals time you should spend growing the business or serving customers—while still letting orders drop.',
+    fix: 'Structured flows handle routine details, lock availability, and route clear summaries straight to the right person so you stop living inside chaotic chat threads.'
+  }
+];
+
 let activeFilter = 'ALL';
 let revealObserver = null;
 let scrollRafId = null;
@@ -490,13 +587,12 @@ function initOpsOrbitCanvas() {
   let height = 0;
   let dpr = 1;
   let pointer = { x: 0.5, y: 0.5, active: false };
-  let animFrameId = null;
 
   const nodes = [
-    { label: 'Order / Booking', angle: -Math.PI * 0.75, radiusFactor: 0.34, color: '#111827' },
-    { label: 'Stock Lock', angle: -Math.PI * 0.25, radiusFactor: 0.34, color: '#D97706' },
-    { label: 'WhatsApp Alert', angle: Math.PI * 0.25, radiusFactor: 0.34, color: '#111827' },
-    { label: 'Payment Check', angle: Math.PI * 0.75, radiusFactor: 0.34, color: '#D97706' }
+    { label: 'Order / Booking', angle: -Math.PI * 0.75, color: '#111827' },
+    { label: 'Stock Lock', angle: -Math.PI * 0.25, color: '#D97706' },
+    { label: 'WhatsApp Alert', angle: Math.PI * 0.25, color: '#111827' },
+    { label: 'Payment Check', angle: Math.PI * 0.75, color: '#D97706' }
   ];
 
   function resize() {
@@ -535,7 +631,6 @@ function initOpsOrbitCanvas() {
     const cy = height * 0.5 + tiltY;
     const baseRadius = Math.min(width, height) * 0.34;
 
-    // Subtle architectural grid dots
     ctx.fillStyle = '#E5E7EB';
     const gap = 22;
     for (let gx = gap; gx < width; gx += gap) {
@@ -546,7 +641,6 @@ function initOpsOrbitCanvas() {
       }
     }
 
-    // Concentric signal rings
     [0.55, 0.85, 1.12].forEach((scale, idx) => {
       ctx.beginPath();
       ctx.arc(cx, cy, baseRadius * scale, 0, Math.PI * 2);
@@ -557,7 +651,6 @@ function initOpsOrbitCanvas() {
       ctx.setLineDash([]);
     });
 
-    // Expanding live pulse wave from center hub
     const pulseProgress = (t * 0.55 + scrollBoost) % 1;
     ctx.beginPath();
     ctx.arc(cx, cy, 18 + pulseProgress * baseRadius * 0.95, 0, Math.PI * 2);
@@ -565,13 +658,11 @@ function initOpsOrbitCanvas() {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Compute orbiting satellite nodes & draw routing lines + traveling packets
     nodes.forEach((node, idx) => {
       const orbitAngle = node.angle + t * 0.35 + scrollBoost;
       const nx = cx + Math.cos(orbitAngle) * baseRadius;
       const ny = cy + Math.sin(orbitAngle) * baseRadius;
 
-      // Connection line to center hub
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(nx, ny);
@@ -579,7 +670,6 @@ function initOpsOrbitCanvas() {
       ctx.lineWidth = 1.25;
       ctx.stroke();
 
-      // Traveling signal dot along the line
       const packetT = (t * 0.9 + idx * 0.25) % 1;
       const px = cx + (nx - cx) * packetT;
       const py = cy + (ny - cy) * packetT;
@@ -588,7 +678,6 @@ function initOpsOrbitCanvas() {
       ctx.fillStyle = '#D97706';
       ctx.fill();
 
-      // Node pill
       ctx.font = '600 10px Inter, sans-serif';
       const textWidth = ctx.measureText(node.label).width;
       const pillW = textWidth + 16;
@@ -608,7 +697,6 @@ function initOpsOrbitCanvas() {
       ctx.fillText(node.label, nx, ny + 0.5);
     });
 
-    // Center Mukty Hub
     ctx.beginPath();
     ctx.arc(cx, cy, 24, 0, Math.PI * 2);
     ctx.fillStyle = '#111827';
@@ -627,11 +715,11 @@ function initOpsOrbitCanvas() {
     ctx.fillText('MUKTY', cx, cy + 0.5);
 
     if (!prefersReducedMotion) {
-      animFrameId = window.requestAnimationFrame(draw);
+      window.requestAnimationFrame(draw);
     }
   }
 
-  animFrameId = window.requestAnimationFrame(draw);
+  window.requestAnimationFrame(draw);
 }
 
 function updateScrollChoreography() {
@@ -642,21 +730,18 @@ function updateScrollChoreography() {
 
   const progressBar = document.getElementById('scrollProgressBar');
   const topHeading = document.getElementById('topSystemsHeading');
+  const aiHeading = document.getElementById('aiAutomationHeading');
   const otherHeading = document.getElementById('otherBuildsHeading');
 
   if (progressBar) {
     progressBar.style.width = `${pct.toFixed(2)}%`;
   }
-  if (topHeading) {
-    const rect = topHeading.getBoundingClientRect();
+  [topHeading, aiHeading, otherHeading].forEach((heading) => {
+    if (!heading) return;
+    const rect = heading.getBoundingClientRect();
     const offset = Math.max(-16, Math.min(16, (rect.top - window.innerHeight * 0.45) * 0.035));
-    topHeading.style.transform = `translate3d(${(-offset * 0.45).toFixed(1)}px, 0, 0)`;
-  }
-  if (otherHeading) {
-    const rect = otherHeading.getBoundingClientRect();
-    const offset = Math.max(-16, Math.min(16, (rect.top - window.innerHeight * 0.45) * 0.035));
-    otherHeading.style.transform = `translate3d(${(-offset * 0.45).toFixed(1)}px, 0, 0)`;
-  }
+    heading.style.transform = `translate3d(${(-offset * 0.45).toFixed(1)}px, 0, 0)`;
+  });
 
   document.querySelectorAll('.system-card').forEach((card, idx) => {
     const rect = card.getBoundingClientRect();
@@ -785,6 +870,31 @@ function renderTopSystems() {
   updateScrollChoreography();
 }
 
+function renderAiCapabilities() {
+  const grid = document.getElementById('aiCapabilitiesGrid');
+  if (!grid) return;
+
+  grid.innerHTML = AI_CAPABILITIES.map(
+    (cap) => `
+      <article class="system-card scroll-reveal rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] hover:border-[#111827] p-6 flex flex-col justify-between space-y-4">
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#D97706]">Capability ${cap.code}</span>
+          </div>
+          <h3 class="font-display text-lg font-extrabold text-[#111827]">${cap.title}</h3>
+          <p class="text-sm text-[#4B5563] leading-relaxed">${cap.summary}</p>
+        </div>
+        <div class="pt-3 border-t border-[#F3F4F6]">
+          <p class="text-xs font-semibold text-[#111827]">${cap.outcome}</p>
+        </div>
+      </article>
+    `
+  ).join('');
+
+  observeScrollElements();
+  updateScrollChoreography();
+}
+
 function renderOtherBuilds() {
   const grid = document.getElementById('otherBuildsGrid');
   grid.innerHTML = OTHER_BUILDS.map((item) => {
@@ -825,6 +935,79 @@ function renderOtherBuilds() {
 
   observeScrollElements();
   updateScrollChoreography();
+}
+
+function renderTestimonials() {
+  const grid = document.getElementById('testimonialsGrid');
+  if (!grid) return;
+
+  grid.innerHTML = TESTIMONIALS.map(
+    (t) => `
+      <article class="system-card scroll-reveal rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] p-6 flex flex-col justify-between space-y-5">
+        <div class="space-y-3">
+          <span class="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#FEF3C7] text-[#92400E]">
+            ${t.metric}
+          </span>
+          <p class="text-sm text-[#1F2937] leading-relaxed">“${t.quote}”</p>
+        </div>
+        <div class="pt-3 border-t border-[#F3F4F6]">
+          <p class="text-xs font-bold text-[#111827]">${t.author}</p>
+          <p class="text-xs text-[#6B7280] mt-0.5">${t.context}</p>
+        </div>
+      </article>
+    `
+  ).join('');
+
+  observeScrollElements();
+  updateScrollChoreography();
+}
+
+function renderFaqAccordion() {
+  const container = document.getElementById('faqAccordion');
+  if (!container) return;
+
+  container.innerHTML = BRUTAL_FAQS.map((item, idx) => {
+    const isFirst = idx === 0;
+    return `
+      <div class="scroll-reveal rounded-2xl border border-[#E5E7EB] bg-[#FFFFFF] overflow-hidden">
+        <button
+          type="button"
+          aria-expanded="${isFirst ? 'true' : 'false'}"
+          onclick="toggleFaqItem(${idx})"
+          class="w-full text-left px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between gap-4 hover:bg-[#FAFAFA] transition"
+        >
+          <span class="font-display text-sm sm:text-base font-bold text-[#111827] leading-snug">
+            0${idx + 1}. ${item.q}
+          </span>
+          <span id="faqIcon-${idx}" class="text-lg font-bold text-[#D97706] shrink-0">
+            ${isFirst ? '−' : '+'}
+          </span>
+        </button>
+        <div id="faqPanel-${idx}" class="${isFirst ? '' : 'hidden'} px-5 pb-5 sm:px-6 sm:pb-6 pt-1 border-t border-[#F3F4F6] grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-3.5 rounded-xl bg-[#FAFAFA] border border-[#F3F4F6]">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-[#6B7280] mb-1">The Pain</p>
+            <p class="text-sm text-[#374151] leading-relaxed">${item.pain}</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-[#FFFBEB] border border-[#FDE68A]">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-[#B45309] mb-1">How The System Fixes It</p>
+            <p class="text-sm text-[#1F2937] leading-relaxed">${item.fix}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  observeScrollElements();
+}
+
+function toggleFaqItem(idx) {
+  const panel = document.getElementById(`faqPanel-${idx}`);
+  const icon = document.getElementById(`faqIcon-${idx}`);
+  if (!panel || !icon) return;
+
+  const isOpen = !panel.classList.contains('hidden');
+  panel.classList.toggle('hidden', isOpen);
+  icon.textContent = isOpen ? '+' : '−';
 }
 
 function filterTopSystems(filter) {
@@ -1023,6 +1206,9 @@ document.addEventListener('keydown', (e) => {
 });
 
 renderTopSystems();
+renderAiCapabilities();
 renderOtherBuilds();
+renderTestimonials();
+renderFaqAccordion();
 initScrollEffects();
 initOpsOrbitCanvas();

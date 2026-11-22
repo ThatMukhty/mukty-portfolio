@@ -57,6 +57,7 @@ body {
   .system-card,
   .system-card:hover,
   #topSystemsHeading,
+  #aiAutomationHeading,
   #otherBuildsHeading {
     opacity: 1 !important;
     transform: none !important;
